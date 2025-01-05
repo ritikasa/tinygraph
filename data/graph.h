@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include <vector>
+#include <variant>
 
 namespace tinygraph {
     class Graph {
@@ -27,6 +28,33 @@ namespace tinygraph {
         std::vector<std::vector<std::string>> connected_components();
 
         std::string str();
+
+        using number = std::variant<int, float, double>; // more types can be added here
+        
+        std::map<std::string, number> distances;
+
+        std::map<std::string, std::string> parent;
+
+        std::string path_property;
+
+        bool bellman_ford(const std::string& the_source_name, const std::string& sorting_property);
+        
+        bool vertex_exists(const std::string& vertex);
+
+        void reset_paths();
+
+        std::string source_name;
+
+        std::vector<std::string> find_shortest_path(const std::string& destination);
+
+        enum neg_cycle_state { unknown, negative, non_negative };
+
+        neg_cycle_state negative_cycle = unknown;
+
+        bool initialize_distances();
+
+        number find_value(std::any& property);
+
     };
 }
 

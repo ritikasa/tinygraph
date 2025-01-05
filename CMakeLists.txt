@@ -8,3 +8,6 @@ target_include_directories (tinygraph PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(tinygraph_test test.cpp)
 target_link_libraries (tinygraph_test LINK_PUBLIC tinygraph)
+
+add_executable(bellman_ford_test tests/bellman_ford_test.cpp)
+target_link_libraries (bellman_ford_test LINK_PUBLIC tinygraph)
