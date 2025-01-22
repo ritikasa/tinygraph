@@ -55,6 +55,10 @@ namespace tinygraph {
 
         number find_value(std::any& property);
 
+        void dfs(const std::string& current, const std::string& destination, std::map<std::string, vector<std::string>>& adj, std::map<std::string, bool>& visited, std::vector<std::string>& path); 
+
+        bool dfsSetup(const std::string& source, const std::string& destination);
+
     };
 }
 

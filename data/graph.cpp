@@ -288,5 +288,68 @@ namespace tinygraph {
         return shortest_path;
     }
 
-}
+    void Graph::dfs(const std::string& current, const std::string& destination, std::map<std::string, vector<std::string>>& adj, std::map<std::string, bool>& visited, std::vector<std::string>& path, bool& found) 
+    {
+        visited[current] = true;
 
+        path.push_back(current);
+
+        if (current == destination)
+        {
+            found = true;
+            return;
+        }
+
+        for (std::string testing : adj[current])
+        {
+            if (!visited[testing] && !found) 
+            {
+                dfs(testing, destination, adj, visited, path, found);
+            }
+        }
+        if (!found) path.pop_back();
+    }
+
+    bool Graph::dfsSetup(const std::string& source, const std::string& destination)
+    {
+        if (vertices.find(source) == vertices.end() || vertices.find(destination) == vertices.end()) return false;
+
+        std::map<std::string, vector<std::string>> adj;
+        std::map<std::string, bool> visited;
+
+        std::vector<std::string> path;
+
+        for (auto& [vertex_name, vertex_ptr] : vertices)
+        {
+            visited[vertex_name] = false;
+        }
+            
+            
+
+        for (auto& [vertex_name, vertex_ptr] : vertices)
+        {
+            for (auto& edge : vertex_ptr->connections)
+            {
+                if (undirected)
+                {
+                    adj[vertex_name].push_back(edge->to->name);
+                    adj[edge->to->name].push_back(vertex_name);
+                }
+                else
+                {
+                    adj[vertex_name].push_back(edge->to->name);
+                }
+            }
+        }
+        
+        bool found = false;
+
+        dfs(source, destination, adj, visited, path, found);
+
+        if (!found) path.clear();
+        
+        return found;
+
+
+    }
+}
